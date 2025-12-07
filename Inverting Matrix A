@@ -1,3 +1,4 @@
+import random
 def transpose(A):
     B=[]
     for i in range(len(A)):
@@ -50,6 +51,8 @@ def inverse(A):
     M=len(A[0])
     if N!=M:
         return None
+    elif N<2:
+        return A
     elif det(A)==0:
         return None
     else:
@@ -60,6 +63,17 @@ def inverse(A):
             for j in range(len(CT)):
                 CT[i][j]=CT[i][j]/det_A
         return CT
+
+A=([7,2,3,0,1],[4,9,4,6,1],[7,91,1,9,0],[0,200,5,4,2],[19,18,17,16,15])
+A=[]
+N=int(input("N="))
+for i in range(N):
+    Arow=[]
+    for j in range(N):
+        Arow.append(random.randint(0,100))
+    A.append(Arow)
+print(A)
+print(inverse(A))
 
 A=([7,2,3,0,1],[4,9,4,6,1],[7,91,1,9,0],[0,200,5,4,2],[19,18,17,16,15])
 
