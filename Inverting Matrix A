@@ -1,0 +1,66 @@
+def transpose(A):
+    B=[]
+    for i in range(len(A)):
+        Brow=[]
+        for j in range(len(A[0])):
+            Brow.append(A[j][i])
+        B.append(Brow)
+    return B
+
+
+def det(A):
+    N=len(A)
+    if N==2:
+        return A[0][0]*A[1][1]-A[0][1]*A[1][0]
+    else:
+        Sum=0
+        for j in range(N):
+            #make a new function for det(A)
+            B=[]
+            for r in range(N):
+                if r!=0:
+                    B.append(A[r][:j]+A[r][j+1:])
+            #
+            Sum+= ((-1)**(j+2))*A[0][j]*det(B)
+        return Sum
+
+
+def minors(A):
+    C=[]
+    N=len(A)
+    if N==2:
+        B= ([A[1][1],-A[1][0]],[-A[0][1],A[0][0]])
+    else:
+        for i in range(N):
+            Crow=[]
+            for j in range(N):
+                #make a new function for det(A)
+                B=[]
+                for r in range(N):
+                    if r!=i:
+                        B.append(A[r][:j]+A[r][j+1:])
+                #make each box the determinant of the remaining (with +- pattern)
+                Crow.append(((-1)**((j+2)+(i+2)))*det(B))
+            C.append(Crow)
+        return C
+
+
+def inverse(A):
+    N=len(A)
+    M=len(A[0])
+    if N!=M:
+        return None
+    elif det(A)==0:
+        return None
+    else:
+        det_A=det(A)
+        C=minors(A)
+        CT=transpose(C)
+        for i in range(len(CT)):
+            for j in range(len(CT)):
+                CT[i][j]=CT[i][j]/det_A
+        return CT
+
+A=([7,2,3,0,1],[4,9,4,6,1],[7,91,1,9,0],[0,200,5,4,2],[19,18,17,16,15])
+
+print(inverse(A))
